@@ -49,7 +49,11 @@ class Comments(db.Model):
 @app.route('/')
 def main():
     name = request.cookies.get('user')
-    post = Posts.query.all()
+    search = request.args.get("search")
+    if search is None:
+        post = Posts.query.all()
+    else:
+        post = Posts.query.filter_by(title=search).all()
     if len(post) > 2:
         post = list(reversed(post))
     else:
@@ -58,9 +62,15 @@ def main():
         name = "Guest"
     try:
         path = db.session.query(Users.path).filter_by(login=name).first()[0]
-        return render_template("index.html", name=name, path=path, post=post)
+        if post is not None:
+            return render_template("index.html", name=name, path=path, post=post)
+        else:
+            return render_template("index.html", name=name, path=path)
     except:
-        return render_template("index.html", name=name, post=post)
+        if post is not None:
+            return render_template("index.html", name=name, post=post)
+        else:
+            return render_template("index.html", name=name)
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -315,7 +325,6 @@ def viewall():
                 comments = list(reversed(comments))
             else:
                 comments = list(comments)
-            print(comments)
             return render_template("viewall.html", post=post, name=name, path=path, comments=comments)
         else:
             return redirect("/")
