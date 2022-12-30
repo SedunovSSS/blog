@@ -262,7 +262,6 @@ def addpost():
         while os.path.exists(path):
             image.filename = "exists123" + image.filename
             path = f"static/uploads/{author}/{image.filename}"
-        path = f"static/uploads/{author}/{image.filename}"
         image.save(path)
         post = Posts(title=title, intro=intro, text=text, path=path, author=author)
         try:
@@ -301,7 +300,7 @@ def viewall():
                 except:
                     return redirect(f"/viewall?id={post_id}")
             else:
-                return redirect(f"/viewall?id={post_id}")
+                return redirect("/")
         else:
             return redirect("/login")
 
