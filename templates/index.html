@@ -41,6 +41,12 @@
     </div>
     <h1 class="text-success">Hello, {% if path %}<a href="/profile?user={{ name }}"><img src="{{ path }}"></a>{% endif %}{{ name }}!</h1>
     <h1 class="text-success" >Welcome to my site</h1><br><br>
+    <form method="get">
+        <div class="alert alert-success">
+    <input type="text" class="form-control" placeholder="Search Post" name="search"><br>
+    <button type="submit" class="btn btn-danger"><h4>Search</h4></button><br><br>
+        </div>
+        </form>
     <a class="btn btn-primary" href="/addpost"><h4>Add Post</h4></a><br><br>
     <h1 class="text-secondary">All Posts: </h1>
     {% for i in post %}
